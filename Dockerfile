@@ -53,21 +53,21 @@ RUN usermod -aG sudo jfree
 RUN chsh -s $(which zsh)
 
 FROM user_setup as ssh_setup
-ARG SSH_KEY
+#ARG SSH_KEY
 # Needs root privileges
 RUN mkdir /run/sshd
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 RUN sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config
 # @todo: Should we be switching user at all?
-USER jfree
-RUN mkdir ~/.ssh/
-RUN echo "$SSH_KEY" > ~/.ssh/id_rsa
-RUN chmod 600 ~/.ssh/id_rsa
-RUN echo "$SSH_PUBLIC_KEY" > ~/.ssh/authorized_keys
-RUN chmod 600 ~/.ssh/authorized_keys
-RUN eval `ssh-agent -s` && ssh-add ~/.ssh/id_rsa
+#USER jfree
+#RUN mkdir ~/.ssh/
+#RUN echo "$SSH_KEY" > ~/.ssh/id_rsa
+#RUN chmod 600 ~/.ssh/id_rsa
+#RUN echo "$SSH_PUBLIC_KEY" > ~/.ssh/authorized_keys
+#RUN chmod 600 ~/.ssh/authorized_keys
+#RUN eval `ssh-agent -s` && ssh-add ~/.ssh/id_rsa
 # Avoids prompt for known hosts on first clone/connect
-RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+#RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 # RUN sed -i /etc/ssh/sshd_config \
         # -e 's/#PermitRootLogin.*/PermitRootLogin no/' \
         # -e 's/#PasswordAuthentication.*/PasswordAuthentication no/'
