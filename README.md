@@ -8,6 +8,12 @@ Presuming the cluster is set up, and `kubectl` configured, we need to create a s
 kubectl create secret generic ssh-key --from-file=~/.ssh/wilson
 ```
 
+Then create the user-files ConfigMap:
+
+```
+kubectl create configmap user --from-file=configmap-files
+```
+
 Then the ReplicaSet:
 
 ```
