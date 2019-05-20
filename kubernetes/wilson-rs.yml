@@ -1,0 +1,46 @@
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: wilson
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wilson
+  template:
+    metadata:
+      labels:
+        app: wilson
+    spec:
+      volumes:
+        - name: user
+          configMap:
+            name: user
+        - name: ssh
+          secret:
+            secretName: ssh-key
+      containers:
+        - name: wilson
+          image: jayfreestone/wilson
+          volumeMounts:
+            - name: ssh
+              mountPath: /home/jfree/.ssh/primary
+              readOnly: true
+            - name: ssh
+              mountPath: /home/jfree/.ssh/authorized_keys
+              subPath: id_rsa.pub
+              readOnly: true
+            - name: user
+              mountPath: /home/jfree/.ssh/config
+              subPath: ssh_config
+          ports:
+            - name: ssh
+              containerPort: 3222
+              protocol: TCP
+            # No support for port ranges (?)
+            - name: mosh1
+              containerPort: 60001
+              protocol: UDP
+            - name: mosh2
+              containerPort: 60002
+              protocol: UDP

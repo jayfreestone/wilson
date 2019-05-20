@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wilson-mosh
+spec:
+  type: LoadBalancer
+  selector:
+    app: wilson
+  ports:
+    # No support for port ranges (?)
+    - name: mosh1
+      port: 60001
+      targetPort: mosh1
+      protocol: UDP
+    - name: mosh2
+      port: 60002
+      targetPort: mosh2
+      protocol: UDP
+  loadBalancerIP: $WILSON_STATIC_LOAD_BALANCER_IP

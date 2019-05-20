@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wilson-ssh
+spec:
+  type: LoadBalancer
+  selector:
+    app: wilson
+  ports:
+    - port: 3222
+      targetPort: ssh
+      protocol: TCP
+  # Invalid, replace before creating
+  loadBalancerIP: $WILSON_STATIC_LOAD_BALANCER_IP
