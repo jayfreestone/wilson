@@ -1,4 +1,25 @@
-# Wilson
+# Wilson 🏉
+
+## Creating the infrastructure
+
+Presuming the cluster is set up, and `kubectl` configured, we need to create a secret containing our ssh key (folder containing both public and private keys):
+
+```
+kubectl create secret generic ssh-key --from-file=~/.ssh/wilson
+```
+
+Then the ReplicaSet:
+
+```
+kubectl create -f kubernetes/wilson-rs.yml
+```
+
+And the two access services, replacing the load balancer IP with a statically assigned one:
+
+```
+cat kubernetes/wilson-ssh-sv.yml | sed s/\$WILSON_STATIC_LOAD_BALANCER_IP/0.00.0.0/ | kubectl create -f -
+cat kubernetes/wilson-mosh-sv.yml | sed s/\$WILSON_STATIC_LOAD_BALANCER_IP/0.00.0.0/ | kubectl create -f -
+```
 
 ## Getting into the container
 
