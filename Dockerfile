@@ -108,7 +108,7 @@ RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
 # @todo We should use and clean up the link script on the dotfiles repo
 RUN git clone https://github.com/jayfreestone/dotfiles && \
-  ln -s ~/dotfiles/zshrc ~/.zshrc
+  ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 RUN git clone https://github.com/jayfreestone/vim && \
   ln -s ~/vim/vimrc ~/.vimrc
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
